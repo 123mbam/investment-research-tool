@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Research Tool - not professional advice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #4a5568;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        /* Top Section Styles */
+        .top-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .top-section .section-title {
+            color: white;
+            border-left-color: white;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-field label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-field input {
+            padding: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        /* Middle Section Styles */
+        .middle-section {
+            background: #f8f9fa;
+        }
+
+        .containers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .container-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .container-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .container-box h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 50px;
+        }
+
+        .generated-text {
+            background: #e6fffa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-style: italic;
+            color: #2d3748;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            border-left-color: #e53e3e;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .containers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Section -->
+        <div class="section top-section">
+            <h1 class="section-title">Market Research Configuration</h1>
+            
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="textField1">Text Field 1:</label>
+                    <input type="text" id="textField1" maxlength="200" placeholder="Enter up to 200 characters...">
+                </div>
+                <div class="input-field">
+                    <label for="textField2">Text Field 2:</label>
+                    <input type="text" id="textField2" maxlength="200" placeholder="Enter up to 200 characters...">
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <p>Welcome to the Market Research Tool! This application helps you analyze markets, research financial instruments, and find brokerages. Use the text fields above to store your notes or parameters. Below, you'll find three specialized tools:</p>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>Market Sizing:</strong> Get AI-powered market analysis using Google's Gemini</li>
+                    <li><strong>Financial Instruments:</strong> Research equities, ETFs, and bonds by region</li>
+                    <li><strong>Brokerage Finder:</strong> Locate brokerages by country</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Middle Section -->
+        <div class="section middle-section">
+            <h2 class="section-title">Research Tools</h2>
+            
+            <div class="containers-grid">
+                <!-- Container 1: Market Sizing with Gemini -->
+                <div class="container-box">
+                    <h3>🎯 Market Sizing with AI</h3>
+                    <div class="form-group">
+                        <label for="marketPrompt">Market Sizing Prompt:</label>
+                        <textarea id="marketPrompt" placeholder="Enter your market sizing question (e.g., 'What is the size of the electric vehicle market in Europe?')"></textarea>
+                    </div>
+                    <button class="btn" onclick="sendToGemini()">Analyze Market</button>
+                    <div id="geminiOutput" class="output">AI response will appear here...</div>
+                </div>
+
+                <!-- Container 2: Financial Instruments -->
+                <div class="container-box">
+                    <h3>📊 Financial Instruments Research</h3>
+                    <div class="form-group">
+                        <label for="firstDropdown">Region:</label>
+                        <select id="firstDropdown" onchange="updateFinancialQuery()">
+                            <option value="">Select Region</option>
+                            <option value="Global">Global</option>
+                            <option value="North America">North America</option>
+                            <option value="South America">South America</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Africa">Africa</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Antarctica">Antarctica</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="secondDropdown">Instrument Type:</label>
+                        <select id="secondDropdown" onchange="updateFinancialQuery()">
+                            <option value="">Select Type</option>
+                            <option value="equities">Equities</option>
+                            <option value="ETFs">ETFs</option>
+                            <option value="bonds">Bonds</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sectorField">Sector:</label>
+                        <input type="text" id="sectorField" placeholder="e.g., Technology, Healthcare" onchange="updateFinancialQuery()">
+                    </div>
+                    <div id="financialQuery" class="generated-text">Select options above to generate query...</div>
+                </div>
+
+                <!-- Container 3: Brokerage Finder -->
+                <div class="container-box">
+                    <h3>🏦 Brokerage Finder</h3>
+                    <div class="form-group">
+                        <label for="countryDropdown">Country:</label>
+                        <select id="countryDropdown" onchange="updateBrokerageQuery()">
+                            <option value="">Select Country</option>
+                            <option value="United States">United States</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Hong Kong">Hong Kong</option>
+                            <option value="South Korea">South Korea</option>
+                            <option value="India">India</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Mexico">Mexico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brokerageSectorField">Sector/Service:</label>
+                        <input type="text" id="brokerageSectorField" placeholder="e.g., retail trading, institutional services" onchange="updateBrokerageQuery()">
+                    </div>
+                    <div id="brokerageQuery" class="generated-text">Select country and enter sector to generate query...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update financial instruments query
+        function updateFinancialQuery() {
+            const region = document.getElementById('firstDropdown').value;
+            const instrument = document.getElementById('secondDropdown').value;
+            const sector = document.getElementById('sectorField').value || 'XYZ';
+            
+            const queryDiv = document.getElementById('financialQuery');
+            
+            if (region && instrument) {
+                queryDiv.innerHTML = `List <strong>${region}</strong> ${instrument} for the <strong>${sector}</strong> sector.`;
+                queryDiv.style.color = '#2d3748';
+            } else {
+                queryDiv.innerHTML = 'Select options above to generate query...';
+                queryDiv.style.color = '#a0aec0';
+            }
+        }
+
+        // Update brokerage query
+        function updateBrokerageQuery() {
+            const country = document.getElementById('countryDropdown').value;
+            const sector = document.getElementById('brokerageSectorField').value || 'XYZ';
+            
+            const queryDiv = document.getElementById('brokerageQuery');
+            
+            if (country) {
+                queryDiv.innerHTML = `List brokerages based in <strong>${country}</strong> that offer <strong>${sector}</strong>.`;
+                queryDiv.style.color = '#2d3748';
+            } else {
+                queryDiv.innerHTML = 'Select country and enter sector to generate query...';
+                queryDiv.style.color = '#a0aec0';
+            }
+        }
+
+        // Send prompt to Gemini (simulated - you'll need to implement actual API call)
+        async function sendToGemini() {
+            const prompt = document.getElementById('marketPrompt').value;
+            const outputDiv = document.getElementById('geminiOutput');
+            
+            if (!prompt.trim()) {
+                outputDiv.innerHTML = '<div class="error">Please enter a market sizing prompt.</div>';
+                return;
+            }
+
+            // Show loading state
+            outputDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Loading AI response...</div>';
+            
+            // Simulate API call (replace with actual Gemini API integration)
+            try {
+                // This is a placeholder - you'll need to implement actual Gemini API integration
+                // For now, we'll simulate a response
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                outputDiv.innerHTML = `
+                    <div style="color: #2d3748;">
+                        <strong>AI Analysis:</strong> This is a simulated response. To connect to Google's Gemini API, you'll need to:
+                        <ol style="margin: 10px 0; padding-left: 20px;">
+                            <li>Get a Gemini API key from Google AI Studio</li>
+                            <li>Replace this function with actual API call</li>
+                            <li>Handle the response appropriately</li>
+                        </ol>
+                        <em>Your prompt:</em> "${prompt}"
+                    </div>
+                `;
+            } catch (error) {
+                outputDiv.innerHTML = `<div class="error">Error: Unable to connect to Gemini API. ${error.message}</div>`;
+            }
+        }
+
+        // Character counter for text fields
+        function addCharacterCounter(fieldId) {
+            const field = document.getElementById(fieldId);
+            const counter = document.createElement('div');
+            counter.style.fontSize = '12px';
+            counter.style.color = 'rgba(255,255,255,0.7)';
+            counter.style.textAlign = 'right';
+            counter.style.marginTop = '5px';
+            
+            field.parentNode.appendChild(counter);
+            
+            function updateCounter() {
+                const remaining = 200 - field.value.length;
+                counter.textContent = `${field.value.length}/200 characters`;
+                counter.style.color = remaining < 20 ? '#fed7d7' : 'rgba(255,255,255,0.7)';
+            }
+            
+            field.addEventListener('input', updateCounter);
+            updateCounter();
+        }
+
+        // Initialize character counters
+        document.addEventListener('DOMContentLoaded', function() {
+            addCharacterCounter('textField1');
+            addCharacterCounter('textField2');
+        });
+    </script>
+</body>
+</html>
