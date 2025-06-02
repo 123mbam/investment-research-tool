@@ -410,7 +410,7 @@
                 return;
             }
 
-            const query = `List brokerages based in ${country} that offer ${sector}.`;
+            const query = `List brokerages based in ${country} from which I can buy the instrument with the ticker ${sector}.`;
             
             // Show loading state
             outputDiv.innerHTML = '<div class="loading"><div class="spinner"></div>Loading AI response...</div>';
@@ -512,7 +512,7 @@
             const queryDiv = document.getElementById('brokerageQuery');
             
             if (country) {
-                queryDiv.innerHTML = `List brokerages based in <strong>${country}</strong> that offer <strong>${sector}</strong>.`;
+                queryDiv.innerHTML = `List brokerages based in <strong>${country}</strong> from which I can buy the instrument with the ticker <strong>${sector}</strong>.`;
                 queryDiv.style.color = '#2d3748';
             } else {
                 queryDiv.innerHTML = 'Select country and enter sector to generate query...';
