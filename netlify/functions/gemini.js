@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
     console.log('API Key length:', process.env.GEMINI_API_KEY?.length);
     console.log('Prompt:', prompt);
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
     
     const response = await fetch(apiUrl, {
       method: 'POST',
